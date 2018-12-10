@@ -1,3 +1,4 @@
+使用刚生成的base64编码，配置node
 ```bash
 # ironic node-update nodetest add instance_info/configdrive="H4sICPW4DVwAA2NvbmZpZ2RyaXZlLmlzbwDt3F1TG9cZAGDJSSdUTd3pdDqpE7ezpplJGgeQwHx2
 OtNFCCyDPiwJsH3DCEkYgkBUEuajTWdy04//0dte5rb/KNOf0O5KUOy6jpMm46Sd5xnD7jl7dN4j
