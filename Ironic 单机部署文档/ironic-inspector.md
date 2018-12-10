@@ -1,4 +1,3 @@
-# 三 Ironic-inspector
 ```bash
 # 安装ironic-inspector
 yum install openstack-ironic-inspector python2-ironic-inspector-client -y

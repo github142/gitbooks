@@ -1,5 +1,4 @@
-# 二 ironic和依赖组件
-### 2.1 ironic和依赖组件安装
+ironic和依赖组件安装
 ```bash
 # 添加openstack 源
 yum install centos-release-openstack-rocky -y
@@ -15,7 +14,7 @@ systemctl start iscsid
 systemctl enable iscsid
 
 ```
-### 2.2 PXE 配置
+PXE 配置
 ```bash
 # 创建tftpboot目录
 mkdir -p /tftpboot
@@ -77,7 +76,7 @@ chown -R ironic. /tftpboot
 systemctl restart xinetd
 systemctl enable xinetd
 ```
-### 2.3 生成 web 控制台ssl证书
+生成 web 控制台ssl证书
 ```bash
 #生成证书
 mkdir -p /opt/ca
@@ -90,7 +89,7 @@ openssl x509 -req -days 3650 -in my.csr -signkey my.key -out my.crt
 cat my.crt my.key > certificate.pem
 ```
 
-### 2.4 配置rabbitmq
+配置rabbitmq
 ```bash
 # 启动rabbitmq
 systemctl start rabbitmq-server.service
@@ -100,7 +99,7 @@ systemctl enable rabbitmq-server.service
 rabbitmqctl add_user RPC_USER RPC_PASSWORD
 rabbitmqctl set_permissions RPC_USER ".*" ".*" ".*"
 ```
-### 2.5 Ironic 配置
+Ironic 配置
 
 ```bash
 # 启动数据库
