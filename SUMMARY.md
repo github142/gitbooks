@@ -5,4 +5,5 @@
 * [DELL服务器IPMI配置](Dell服务器IPMI配置.md)
 * [config driver](config-driver.md)
   * [构建数据源](config-driver/gou-jian-shu-ju-yuan.md)
+  * [生成文件](config-driver/生成文件.md)
 
