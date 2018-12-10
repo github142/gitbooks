@@ -1,4 +1,4 @@
-###功能索引
+###索引
 
 * [系统环境要求](Ironic 单机部署文档/xi-tong-zhun-bei.md)
 * [ironic](Ironic 单机部署文档/ironic.md)
