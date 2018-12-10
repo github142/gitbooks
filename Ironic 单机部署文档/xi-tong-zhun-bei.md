@@ -5,15 +5,19 @@
 
 网卡1： 192.168.104.15
 
-```bash
-# 添加epel 源
-yum install epel-release -y
 
-# 关闭防火墙
+添加epel 源
+```bash
+
+yum install epel-release -y
+```
+关闭防火墙
+```
 systemctl disable firewalld
 systemctl stop firewalld
-
-# 关闭selinux
+```
+关闭selinux
+```
 sed -i 's/=enforcing/=disabled/1' /etc/selinux/config
 reboot
 ```
