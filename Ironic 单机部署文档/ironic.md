@@ -1,38 +1,48 @@
-ironic和依赖组件安装
+**ironic和依赖组件安装**
+
+添加openstack 源
 ```bash
-# 添加openstack 源
+
 yum install centos-release-openstack-rocky -y
-
-# 安装mysql rabbitmq 和其他依赖软件
+```
+安装mysql rabbitmq 和其他依赖软件
+```
 yum install dnsmasq mysql-server rabbitmq-server shellinabox qemu-img iscsi-initiator-utils psmisc openssl -y
-
-# 安装ironic-api 和 ironic-conductor
+```
+安装ironic-api 和 ironic-conductor
+```
 yum install openstack-ironic-api openstack-ironic-conductor python-ironicclient -y
-
-# 启动iscis deploy相关服务，iscsid
+```
+启动iscis deploy相关服务，iscsid
+```
 systemctl start iscsid
 systemctl enable iscsid
 
 ```
-PXE 配置
+**PXE 配置**
+
+创建tftpboot目录
 ```bash
-# 创建tftpboot目录
 mkdir -p /tftpboot
-
-# 安装 tftp-server
+```
+安装 tftp-server
+```
 yum install tftp-server syslinux syslinux-tftpboot xinetd -y
-
-# 复制系统 pxe 引导文件到 tftp 目录
+```
+复制系统 pxe 引导文件到 tftp 目录
+```
 cp /usr/share/syslinux/pxelinux.0 /tftpboot/
 cp /usr/share/syslinux/chain.c32 /tftpboot/
-
-# 创建 map-file 文件
+```
+创建 map-file 文件
+```
 echo 're ^(/tftpboot/) /tftpboot/\2' > /tftpboot/map-file
 echo 're ^/tftpboot/ /tftpboot/' >> /tftpboot/map-file
 echo 're ^(^/) /tftpboot/\1' >> /tftpboot/map-file
 echo 're ^([^/]) /tftpboot/\1' >> /tftpboot/map-file
-
-# 修改 tftp 配置文件
+```
+修改 tftp 配置文件
+```
 vi /etc/xinetd.d/tftp
 service tftp
 {
@@ -46,8 +56,9 @@ server_args = -v -v -v -v -v --map-file /tftpboot/map-file /tftpboot
 disable = no
 flags = IPv4
 }
-
-# 创建inspector pxe default文件
+```
+创建inspector pxe default文件
+```
 mkdir /tftpboot/pxelinux.cfg/
 vi /tftpboot/pxelinux.cfg/default
 default introspect
@@ -57,8 +68,9 @@ kernel inspector/ironic-deploy-new.kernel
 append initrd=inspector/ironic-deploy-new.initramfs ipa-inspection-callback-url=http://192.168.104.15:5050/v1/continue ipa-inspection-collectors=default,logs ipa-inspection-dhcp-all-interfaces=true systemd.journald.forward_to_console=yes
 
 ipappend 3
-
-# 拷贝镜像文件并修改权限
+```
+拷贝镜像文件并修改权限
+```
 mkdir /tftpboot/inspector
 /tftpboot/inspector/ironic-deploy-new.kernel
 /tftpboot/inspector/ironic-deploy-new.initramfs
@@ -71,8 +83,9 @@ mkdir /tftpboot/user
 /tftpboot/user/ubuntu-trusty.qcow2
 
 chown -R ironic. /tftpboot
-
-# 启动xinetd
+```
+启动xinetd
+```
 systemctl restart xinetd
 systemctl enable xinetd
 ```
@@ -89,32 +102,38 @@ openssl x509 -req -days 3650 -in my.csr -signkey my.key -out my.crt
 cat my.crt my.key > certificate.pem
 ```
 
-配置rabbitmq
+**配置rabbitmq**
+
+启动rabbitmq
 ```bash
-# 启动rabbitmq
 systemctl start rabbitmq-server.service
 systemctl enable rabbitmq-server.service
+```
 
-# 添加用户
+添加用户
+```
 rabbitmqctl add_user RPC_USER RPC_PASSWORD
 rabbitmqctl set_permissions RPC_USER ".*" ".*" ".*"
 ```
 Ironic 配置
 
-```bash
-# 启动数据库
+
+启动数据库
+```
 systemctl start mariadb
 systemctl enable mariadb
-
-# 创建ironic数据库
+```
+创建ironic数据库
+```
 mysql -u root
 mysql> CREATE DATABASE ironic CHARACTER SET utf8;
 mysql> GRANT ALL PRIVILEGES ON ironic.* TO 'ironic'@'localhost' \
 IDENTIFIED BY 'IRONIC_DBPASSWORD';
 mysql> GRANT ALL PRIVILEGES ON ironic.* TO 'ironic'@'%' \
 IDENTIFIED BY 'IRONIC_DBPASSWORD';
-
-# 修改ironic配置文件
+```
+修改ironic配置文件
+```
 vi /etc/ironic/ironic.conf
 [DEFAULT]
 auth_strategy = noauth
@@ -156,23 +175,27 @@ service_url = http://192.168.104.15:5050
 
 [pxe]
 pxe_append_params = nofb nomodeset vga=normal console=ttyS0,115200n8
-
-# 初始化ironic数据库
+```
+初始化ironic数据库
+```
 ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
-
-# 启动ironic服务
+```
+启动ironic服务
+```
 systemctl restart openstack-ironic-api
 systemctl restart openstack-ironic-conductor
 systemctl enable openstack-ironic-api
 systemctl enable openstack-ironic-conductor
+```
 
-
-# 创建用户环境变量文件
+创建用户环境变量文件
+```
 vi /root/adminrc
 export OS_TOKEN=fake-token
 export IRONIC_URL=http://localhost:6385/
-
-# 验证
+```
+验证
+```
 source /root/adminrc
 ironic driver-list
 
