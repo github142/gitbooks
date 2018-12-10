@@ -323,8 +323,3 @@ enable-serial-console # 启用serial console
 cloud-init-datasources # 配置cloud init 数据源
 cloud-init # 通过cloud init 启用 ssh 密码登陆
 ```
-# 六 物理服务器配置
-
-1) 启用远程管理卡的IPMI协议
-2) 启用BIOS设置中的远程终端重定向，重定向到COM2
-3) 操作系统需要修改grub，启用serial console
