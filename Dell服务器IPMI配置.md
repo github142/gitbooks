@@ -1,6 +1,6 @@
 # Dell 服务器配置 
 ### 1 启用远程管理卡的IPMI
-![ironic-bios](ironic1.jpg)
+![ironic-bios](images/ironic1.jpg)
 ```
  配置 BMC
 1）系统启动 BIOS POST 画面，提示按 Ctrl+E 配置 Remote Access Configuration Utility
@@ -9,7 +9,7 @@
 
 
 ### 2 启用BIOS远程终端重定向
-![ironic-bios](ironic2.jpg)
+![ironic-bios](images/ironic2.jpg)
 ```
 系统启动，安 F2 进入 BIOS 设置, 设置重定向到 com2
 • Serial Communication ……. On with Console Redirection via COM2
