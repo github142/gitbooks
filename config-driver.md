@@ -1,5 +1,5 @@
-
 ### 1 构建数据源:
+
 ```bash
 mkdir -p config-2/openstack/2012-08-10
 ln -sf 2012-08-10 latest
@@ -9,7 +9,8 @@ touch config-2/openstack/2012-08-10/user_data
 touch config-2/openstack/content/0000
 ```
 
-*meta_data.json:*
+_meta\_data.json:_
+
 ```bash
 {
     "network_config" : {
@@ -20,7 +21,9 @@ touch config-2/openstack/content/0000
     "uuid": "6c559874-f3ce-48b6-b377-c99d878edbac"
 }
 ```
-*content/0000:*
+
+_content/0000:_
+
 ```bash
 auto eth0
 iface eth0 inet static
@@ -29,7 +32,8 @@ netmask 255.255.255.0
 gateway 192.168.1.1
 ```
 
-*user_data:*
+_user\_data:_
+
 ```bash
 #cloud-config
 password: redhat
@@ -47,8 +51,8 @@ users:
    plain_text_passwd: 'redhat'
 ```
 
+### 2
 
-### 2 
 ```bash
 mkdir -p /tmp/new-drive/openstack/latest
 cp user_data /tmp/new-drive/openstack/latest/user_data
@@ -57,3 +61,6 @@ rm -r /tmp/new-drive
 gzip configdrive.iso
 base64 configdrive.iso.gz
 ```
+
+
+
