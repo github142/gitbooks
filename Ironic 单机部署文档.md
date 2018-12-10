@@ -1,0 +1,4 @@
+系统环境要求
+ironic
+inspector
+diskimage-build
